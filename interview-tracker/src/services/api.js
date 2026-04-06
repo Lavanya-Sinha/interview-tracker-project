@@ -1,4 +1,4 @@
-const BASE_URL =  import.meta.env.VITE_API_URL + "/interviews";
+const BASE_URL =  import.meta.env.VITE_API_URL
 const getAuthHeaders = ()=>{
     const token = localStorage.getItem("token")
     console.log(token)
@@ -61,7 +61,7 @@ export const deleteInterview =  async(id)=>{
     return response.json()
 }
 export const loginUser = async(email,password)=>{
-     const response = await fetch("http://localhost:5000/login",{
+     const response = await fetch(`${BASE_URL}/login`,{
         method : "POST",
         headers : {
              "Content-Type" : "application/json"
@@ -76,7 +76,7 @@ export const loginUser = async(email,password)=>{
 }
 
 export const signupUser = async (email, password) => {
-  const response = await fetch("http://localhost:5000/sign-up", {
+  const response = await fetch(`${BASE_URL}/sign-up`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
