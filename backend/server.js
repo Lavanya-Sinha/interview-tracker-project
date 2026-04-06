@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 const db = require("./db")
 require("./websocket")
 const express = require("express")
