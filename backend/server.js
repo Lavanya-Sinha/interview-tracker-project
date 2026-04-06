@@ -176,7 +176,8 @@ app.post("/sign-up", async (req, res) => {
 
     db.query(sql, [email, hashedPassword], (err, result) => {
       if (err) {
-        return res.status(500).json({ message: "User exists or error" });
+          console.log("SIGNUP ERROR:", err);
+        return res.status(500).json({ message: err.message });
       }
 
       res.json({ message: "User signed up successfully" });
