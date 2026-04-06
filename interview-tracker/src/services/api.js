@@ -1,12 +1,18 @@
-const BASE_URL =  import.meta.env.VITE_API_URL
-const getAuthHeaders = ()=>{
-    const token = localStorage.getItem("token")
-    console.log(token)
+const BASE_URL =  import.meta.env.VITE_API_URL + "/interviews"
+const getAuthHeaders = () => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
     return {
-        "Content-Type" : "application/json",
-         Authorization : `Bearer ${token}`
-    }
-}
+      "Content-Type": "application/json",
+    };
+  }
+
+  return {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+};
 export const getInterviews = async (page = 1, search = "", limit = 5) => {
   const response = await fetch(
     `${BASE_URL}?page=${page}&limit=${limit}&search=${search}`,
