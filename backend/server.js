@@ -1,5 +1,5 @@
 const db = require("./db")
-require("./websocket")
+const initWebSocket = require("./websocket");
 const express = require("express")
 const cors = require("cors")
 const jwt = require("jsonwebtoken")
@@ -210,7 +210,11 @@ app.post("/login",(req,res)=>{
         res.json({token})
     })
 })
-const PORT = 5000
-app.listen(PORT, ()=>{
-    console.log("server is running in 5000 port")
-})
+const PORT = process.env.PORT || 5000;
+
+const server = app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+
+initWebSocket(server);
