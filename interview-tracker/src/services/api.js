@@ -67,7 +67,7 @@ export const deleteInterview =  async(id)=>{
     return response.json()
 }
 export const loginUser = async(email,password)=>{
-     const response = await fetch(`${BASE_URL}/login`,{
+     const response = await fetch("https://interview-tracker-project.onrender.com/login",{
         method : "POST",
         headers : {
              "Content-Type" : "application/json"
@@ -82,7 +82,7 @@ export const loginUser = async(email,password)=>{
 }
 
 export const signupUser = async (email, password) => {
-  const response = await fetch(`${BASE_URL}/sign-up`, {
+  const response = await fetch("https://interview-tracker-project.onrender.com/sign-up", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
