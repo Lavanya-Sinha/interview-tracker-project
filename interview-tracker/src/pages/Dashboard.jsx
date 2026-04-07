@@ -26,7 +26,11 @@ const {showToast} = useToast()
 
 //Websockets Frontend
 useEffect(() => {
-  const socket = new WebSocket("ws://127.0.0.1:8080");
+  const WS_URL =
+  import.meta.env.VITE_WS_URL ||
+  "wss://interview-tracker-project.onrender.com";
+
+const socket = new WebSocket(WS_URL);
 
   socket.onopen = () => {
     console.log("Frontend Socket Connected");
