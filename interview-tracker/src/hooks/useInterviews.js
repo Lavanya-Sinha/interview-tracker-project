@@ -47,11 +47,9 @@ const refetch = async () => {
 
 const deleteInterview = async (id) => {
   const previous = [...interviews]
-  setInterviews((prev)=>{
-    prev.filter((item)=>{
-      item.id !== id
-    })
-  })
+setInterviews((prev) =>
+  prev.filter((item) => item.id !== id)
+);
   try {
     await deleteInterviewAPI(id);
   } catch (err) {
@@ -62,27 +60,27 @@ const deleteInterview = async (id) => {
 
 const addInterview = async (newInterview) => {
   const TempInterview = {
-     id : Date.now(),
-      ...newInterview
-  }
+  id: Date.now(),
+  ...newInterview
+};
   setInterviews((prev)=>[TempInterview,...prev])
   try {
     await addInterviewAPI(newInterview)
   } catch {
-    setInterviews((prev)=>{
-      prev.filter((item)=> item.id !== TempInterview.id)
-    })
+    setInterviews((prev) =>
+  prev.filter((item) => item.id !== TempInterview.id)
+);
   }
 
 };
 
 const updateInterview = async (id, updatedData) => {
   const previous = [...interviews]
-  setInterviews((prev = [])=>{
-    prev.map((item)=>{
-      item.id === id ? {...item, updatedData} : item
-    })
-  })
+  setInterviews((prev) =>
+  prev.map((item) =>
+    item.id === id ? { ...item, ...updatedData } : item
+  )
+);
    try {
     await updateInterviewAPI(id, updatedData);
   } catch (err) {

@@ -77,7 +77,7 @@ app.post("/interviews", authenticateToken, (req, res) => {
    const userId = req.user.user_id
   const sql = "INSERT INTO interviews (company, role, status, user_id, created_at) VALUES (?, ?, ?, ?, ?)";
    console.log("USER: ",req.user.user_id)
-  db.query(sql, [company, role, status,userId,  createdAt || Date.now()], (err, result) => {
+  db.query(sql, [company, role, status,userId,createdAt ? new Date(createdAt) : new Date()], (err, result) => {
     if (err) {
      res.status(500).json(err);
     }
