@@ -20,7 +20,7 @@ db.getConnection((err, connection) => {
   if (err) {
     console.log("db connection failed", err);
   } else {
-    console.log("Connected to Mysql db ✅");
+    console.log("Connected to Mysql db");
     connection.release();
   }
 });
