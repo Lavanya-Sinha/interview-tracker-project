@@ -8,6 +8,7 @@ require("dotenv").config()
 const app = express()
 app.use(cors())
 app.use(express.json())
+const aiInterviewRoutes = require('./routes/aiInterview')
 
 // AUTHENTICATION
 const authenticateToken = (req,res,next)=>{
@@ -33,6 +34,10 @@ console.log("TOKEN:", token);
     next()
    })
 }
+
+//AI AGENT
+app.use("/api/ai",aiInterviewRoutes)
+
 app.get("/", (req,res)=>{
     res.send("server is running")
 })
