@@ -4,7 +4,7 @@ const router = express.Router()
 
 router.post("/start",async(req,res)=>{
         const{topic,difficulty} = req.body
-        generateInterviewQuestion(topic, difficulty)
+        generateInterviewQuestions(topic, difficulty)
 
         .then((question) => {
 
