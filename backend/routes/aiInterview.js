@@ -1,4 +1,5 @@
 const express = require("express")
+const { generateInterviewQuestions } = require("../services/geminiService")
 const router = express.Router()
 
 router.post("/start",async(req,res)=>{
@@ -9,7 +10,7 @@ router.post("/start",async(req,res)=>{
             message : "Ai route is working",
             topic,
             difficulty,
-            question: "What is memoization in React?"
+            question
         })
         
     } catch (error) {
