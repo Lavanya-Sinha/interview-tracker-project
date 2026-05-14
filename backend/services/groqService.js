@@ -30,6 +30,33 @@ const generateInterviewQuestions = (
 
 };
 
+const evaluateAnswer = (question, answer)=>{
+return groq.chat.completions.create({
+    messages : [
+        {
+            role : "user",
+            content : `Interview Question : ${question} Candidate Answer : ${answer} 
+            Evaluate the answer briefly.
+            Then generate ONE follow-up question.
+            Format response exactly like this :
+            Feedback:
+            <Feedback>
+            Follow-up Question:
+            <question>
+            `
+        }
+    ],
+       model: "llama-3.3-70b-versatile"
+})
+.then((chatCompletion)=>{
+    return chatCompletion
+    .choices[0]
+    .message
+    .content
+})
+}
+
 module.exports = {
-    generateInterviewQuestions
+    generateInterviewQuestions,
+    evaluateAnswer
 };

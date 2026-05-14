@@ -3,6 +3,8 @@ const AIInterviews = ()=>{
     const[topic,setTopic] = useState("React")
     const [difficulty,setDifficulty] = useState("Intermediate")
     const [question, setQuestion] = useState("")
+    const [answer, setAnswer] = useState("");
+    const [feedback, setFeedback] = useState("");
     const startInterview = ()=>{
         fetch("https://interview-tracker-project.onrender.com/api/ai/start",{
             method : "POST",
@@ -32,6 +34,48 @@ const AIInterviews = ()=>{
 
         });
     }
+
+    const submitAnswer = () => {
+
+    fetch(
+        "https://interview-tracker-project.onrender.com/api/ai/evaluate",
+        {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                question,
+                answer
+            })
+        }
+    )
+
+    .then((response) => {
+
+        return response.json();
+
+    })
+
+    .then((data) => {
+
+        setFeedback(data.result);
+
+    })
+
+    .catch((error) => {
+
+        console.log(
+            "ANSWER SUBMISSION ERROR:",
+            error
+        );
+
+    });
+
+};
+
     return(
          <div>
 
@@ -85,6 +129,22 @@ const AIInterviews = ()=>{
                     </div>
                 )
             }
+            <textarea
+             placeholder="Type your answer..."
+             value={answer}
+             onChange={(e) => setAnswer(e.target.value)}
+             />
+             <button onClick={submitAnswer}>
+              Submit Answer
+             </button>
+                {
+                  feedback && (
+                 <div>
+                  <h3>AI Feedback:</h3>
+                  <p>{feedback}</p>
+                  </div>
+                    )
+                 }
 
         </div>
     )

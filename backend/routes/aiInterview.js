@@ -1,8 +1,8 @@
 const express = require("express")
-const { generateInterviewQuestions } = require("../services/groqService")
+const { generateInterviewQuestions, evaluateAnswer } = require("../services/groqService")
 const router = express.Router()
 
-router.post("/start",async(req,res)=>{
+router.post("/start", (req,res)=>{
         const{topic,difficulty} = req.body
         generateInterviewQuestions(topic, difficulty)
 
@@ -25,4 +25,29 @@ router.post("/start",async(req,res)=>{
 
         });
 })
+
+router.post("/evaluate", (req,res)=>{
+    const{question, answer} = req.body
+    evaluateAnswer(question,answer)
+     .then((result) => {
+
+            return res.status(200).json({
+                success: true,
+                result
+            });
+
+        })
+
+        .catch((error) => {
+
+            console.log("EVALUATION ERROR :", error);
+
+            return res.status(500).json({
+                success: false,
+                message: "Evaluation failed"
+            });
+
+        });
+})
+
 module.exports = router;
