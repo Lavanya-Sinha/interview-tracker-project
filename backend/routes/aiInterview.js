@@ -1,5 +1,5 @@
 const express = require("express")
-const { generateInterviewQuestions } = require("../services/geminiService")
+const { generateInterviewQuestions } = require("../services/groqService")
 const router = express.Router()
 
 router.post("/start",async(req,res)=>{
