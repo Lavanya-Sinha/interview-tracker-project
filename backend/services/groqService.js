@@ -38,12 +38,12 @@ return groq.chat.completions.create({
             content : `Interview Question : ${question} Candidate Answer : ${answer} 
             Evaluate the answer briefly.
             Then generate ONE follow-up question.
-            Format response exactly like this :
+           Format response EXACTLY like this:
             Feedback:
-            <Feedback>
-            Follow-up Question:
+            <feedback>
+            FOLLOW_UP_QUESTION:
             <question>
-            `
+            Do not change the labels.`
         }
     ],
        model: "llama-3.3-70b-versatile"

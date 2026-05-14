@@ -5,6 +5,7 @@ const AIInterviews = ()=>{
     const [question, setQuestion] = useState("")
     const [answer, setAnswer] = useState("");
     const [feedback, setFeedback] = useState("");
+    const [followUpQuestion, setFollowUpQuestion] = useState("");
     const startInterview = ()=>{
         fetch("https://interview-tracker-project.onrender.com/api/ai/start",{
             method : "POST",
@@ -61,7 +62,17 @@ const AIInterviews = ()=>{
 
     .then((data) => {
 
-        setFeedback(data.result);
+      const result = data.result;
+
+        const feedbackPart =
+        result.split("FOLLOW_UP_QUESTION:")[0];
+
+        const followUpPart =
+        result.split("FOLLOW_UP_QUESTION:")[1];
+
+       setFeedback(feedbackPart.replace("Feedback:", ""));
+
+      setFollowUpQuestion(followUpPart);
 
     })
 
@@ -145,6 +156,15 @@ const AIInterviews = ()=>{
                   </div>
                     )
                  }
+
+            {
+             followUpQuestion && (
+              <div>
+               <h3>Follow-Up Question:</h3>
+                <p>{followUpQuestion}</p>
+                </div>
+              )
+            }
 
         </div>
     )
