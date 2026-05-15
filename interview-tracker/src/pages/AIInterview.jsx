@@ -1,6 +1,6 @@
 import { useState } from "react"
+import { useLocation } from "react-router-dom";
 const AIInterviews = ()=>{
-    const[topic,setTopic] = useState("React")
     const [difficulty,setDifficulty] = useState("Intermediate")
     const [question, setQuestion] = useState("")
     const [answer, setAnswer] = useState("");
@@ -8,6 +8,8 @@ const AIInterviews = ()=>{
     const [followUpQuestion, setFollowUpQuestion] = useState("");
     const [questionLoading, setQuestionLoading] = useState(false);
     const [evaluationLoading, setEvaluationLoading] = useState(false);
+    const location = useLocation();
+    const role = location.state?.role;
     const startInterview = ()=>{
         setQuestionLoading(true);
         fetch("https://interview-tracker-project.onrender.com/api/ai/start",{
@@ -16,7 +18,7 @@ const AIInterviews = ()=>{
                 "Content-Type" : "application/json"
             },
             body : JSON.stringify({
-                topic,
+                role,
                 difficulty
             })
         })
@@ -103,28 +105,7 @@ const AIInterviews = ()=>{
 
                 <div className="flex flex-col md:flex-row gap-4">
 
-                    <select
-                        value={topic}
-                        onChange={(e) => setTopic(e.target.value)}
-                        className="bg-slate-800 border border-slate-700 rounded-lg p-3 flex-1 outline-none"
-                    >
-
-                        <option value="React">
-                            React
-                        </option>
-
-                        <option value="JavaScript">
-                            JavaScript
-                        </option>
-
-                        <option value="Node.js">
-                            Node.js
-                        </option>
-
-                    </select>
-
-
-
+                <h2>AI Interview For : {role}</h2>
                     <select
                         value={difficulty}
                         onChange={(e) => setDifficulty(e.target.value)}

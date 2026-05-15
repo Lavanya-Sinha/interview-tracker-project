@@ -3,8 +3,8 @@ const { generateInterviewQuestions, evaluateAnswer } = require("../services/groq
 const router = express.Router()
 
 router.post("/start", (req,res)=>{
-        const{topic,difficulty} = req.body
-        generateInterviewQuestions(topic, difficulty)
+        const{role,difficulty} = req.body
+        generateInterviewQuestions(role, difficulty)
 
         .then((question) => {
 

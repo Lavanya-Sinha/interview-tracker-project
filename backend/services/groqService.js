@@ -5,7 +5,7 @@ const groq = new Groq({
 });
 
 const generateInterviewQuestions = (
-    topic,
+    role,
     difficulty
 ) => {
 
@@ -14,7 +14,7 @@ const generateInterviewQuestions = (
         messages: [
             {
                 role: "user",
-                content: ` Generate ONE ${difficulty} level interview question on ${topic}.Return only the question.`
+                content: ` Generate ONE ${difficulty} level interview question on ${role}.Return only the question.`
             }
         ],
 
