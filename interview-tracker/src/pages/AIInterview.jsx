@@ -2,12 +2,10 @@ import { useState } from "react"
 import { useLocation } from "react-router-dom";
 const AIInterviews = ()=>{
     const [difficulty,setDifficulty] = useState("Intermediate")
-    const [question, setQuestion] = useState("")
     const [answer, setAnswer] = useState("");
-    const [feedback, setFeedback] = useState("");
-    const [followUpQuestion, setFollowUpQuestion] = useState("");
     const [questionLoading, setQuestionLoading] = useState(false);
     const [evaluationLoading, setEvaluationLoading] = useState(false);
+    const [conversation, setConversation] = useState([]);
     const location = useLocation();
     const role = location.state?.role;
     const startInterview = ()=>{
@@ -30,7 +28,18 @@ const AIInterviews = ()=>{
 
         .then((data) => {
 
-            setQuestion(data.question);
+         const firstRound = [
+   {
+      question: data.question,
+      answer: "",
+      feedback: ""
+   }
+];
+
+console.log(firstRound);
+
+setConversation(firstRound);
+
             setQuestionLoading(false);
 
         })
@@ -45,6 +54,7 @@ const AIInterviews = ()=>{
 
     const submitAnswer = () => {
       setEvaluationLoading(true);
+      const currentQuestion = conversation[conversation.length - 1].question;
     fetch(
         "https://interview-tracker-project.onrender.com/api/ai/evaluate",
         {
@@ -55,7 +65,7 @@ const AIInterviews = ()=>{
             },
 
             body: JSON.stringify({
-                question,
+                question : currentQuestion,
                 answer
             })
         }
@@ -68,19 +78,28 @@ const AIInterviews = ()=>{
     })
 
     .then((data) => {
-
+       
       const result = data.result;
 
-        const feedbackPart =
-        result.split("FOLLOW_UP_QUESTION:")[0];
+        const feedbackPart = result.split("FOLLOW_UP_QUESTION:")[0];
 
-        const followUpPart =
-        result.split("FOLLOW_UP_QUESTION:")[1];
+        const followUpPart = result.split("FOLLOW_UP_QUESTION:")[1];
+        
+        const updatedConversation = [...conversation]
+        const lastRound = updatedConversation[updatedConversation.length - 1]
 
-       setFeedback(feedbackPart.replace("Feedback:", ""));
+        lastRound.answer = answer;
 
-      setFollowUpQuestion(followUpPart);
-
+        lastRound.feedback = feedbackPart.replace("Feedback:", "");
+         updatedConversation.push(
+             {
+                question: followUpPart,
+                 answer: "",
+                 feedback: ""
+             }
+            );
+      setConversation(updatedConversation);
+      setAnswer("");
       setEvaluationLoading(false);
 
     })
@@ -88,6 +107,7 @@ const AIInterviews = ()=>{
     .catch((error) => {
         console.log(
             "ANSWER SUBMISSION ERROR:", error);
+            setEvaluationLoading(false);
     });
 
 };
@@ -148,29 +168,49 @@ const AIInterviews = ()=>{
 
             </div>
 
+           {
+             conversation.map((round, index) => (
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4"
+             key={index}
+            >
+            <h3 className="text-2xl font-semibold">
+                AI Question
+            </h3>
+            <p className="text-zinc-300 leading-7">
+                {round.question}
+            </p>
 
-
-            {
-                question && (
-
-                    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
-
-                        <h3 className="text-2xl font-semibold">
-                            AI Question
-                        </h3>
-
-                        <p className="text-zinc-300 leading-7">
-                            {question}
-                        </p>
-
-                    </div>
-                )
+             {
+               round.answer && (
+                   <div className="space-y-2">
+                   <h3 className="text-xl font-semibold text-blue-400">
+                         Your Answer :
+                    </h3>
+                   <p className="text-zinc-300 leading-7">
+                       {round.answer}
+                   </p>
+               </div>
+              )
             }
 
-
-
             {
-                question && (
+               round.feedback && (
+               <div className="space-y-2">
+               <h3 className="text-xl font-semibold text-green-400">
+                AI Feedback :
+               </h3>
+                <p className="text-zinc-300 leading-7">
+                   {round.feedback}
+               </p>
+             </div>
+             )
+            }
+
+            </div>
+         ))
+           }
+            {
+                conversation.length > 0 && (
 
                     <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
 
@@ -202,42 +242,6 @@ const AIInterviews = ()=>{
                             }
 
                         </button>
-
-                    </div>
-                )
-            }
-
-
-
-            {
-                feedback && (
-
-                    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
-
-                        <h3 className="text-2xl font-semibold">
-                            AI Feedback
-                        </h3>
-
-                        <p className="text-zinc-300 leading-7">
-                            {feedback}
-                        </p>
-
-                    </div>
-                )
-            }
-
-              {
-                followUpQuestion && (
-
-                    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
-
-                        <h3 className="text-2xl font-semibold">
-                            Follow-Up Question
-                        </h3>
-
-                        <p className="text-slate-300 leading-7">
-                            {followUpQuestion}
-                        </p>
 
                     </div>
                 )
