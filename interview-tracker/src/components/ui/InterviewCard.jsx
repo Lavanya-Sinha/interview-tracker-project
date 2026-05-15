@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const InterviewCard = ({ interview, handleDelete, handleUpdate, handleToggleFavorite }) => {
+  const navigate = useNavigate();
   let statusColors = {
     Applied: "bg-blue-500/10 text-blue-400",
     Offer: "bg-green-500/10 text-green-400",
@@ -41,6 +43,17 @@ const InterviewCard = ({ interview, handleDelete, handleUpdate, handleToggleFavo
 };
 const [scheduleDate, setScheduleDate] = useState("");
 const [scheduleTime, setScheduleTime] = useState("");
+
+const startAIInterview = () => {
+
+    navigate("/ai-interview", {
+        state: {
+            role: interview.role
+        }
+    });
+
+};
+
   return (
     <div className="bg-slate-800 p-4 rounded-lg shadow-md mb-4 transition-all duration-200 hover:shadow-lg hover:bg-slate-700/60 hover:-translate-y-0.5">
       {isEditing ? (
@@ -172,6 +185,10 @@ const [scheduleTime, setScheduleTime] = useState("");
   }`}
 >
   Schedule
+</button>
+
+<button onClick={startAIInterview}>
+    Start AI Interview
 </button>
   </div>
 
