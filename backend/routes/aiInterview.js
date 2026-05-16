@@ -73,7 +73,7 @@ router.post("/create-session", authenticateToken, (req,res)=>{
 router.put("/update-session/:id",authenticateToken, (req,res)=>{
     const sessionId = Number.parseInt(req.params.id)
     const {conversation} = req.body
-    const sql = `UPDATE ai_session SET converation = ? WHERE id = ?`
+    const sql = `UPDATE ai_session SET conversation = ? WHERE id = ?`
     db.query(sql,[JSON.stringify(conversation), sessionId],(err,result)=>{
         if(err){
             console.log("Update Session Error : ",err)
