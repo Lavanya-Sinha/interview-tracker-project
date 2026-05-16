@@ -17,7 +17,9 @@ const AIInterviews = ()=>{
         fetch("https://interview-tracker-project.onrender.com/api/ai/start",{
             method : "POST",
             headers : {
-                "Content-Type" : "application/json"
+                "Content-Type" : "application/json",
+                 Authorization: `Bearer ${token}`
+                
             },
             body : JSON.stringify({
                 role,
@@ -85,6 +87,7 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
 
             headers: {
                 "Content-Type": "application/json",
+                 Authorization: `Bearer ${token}`
             },
 
             body: JSON.stringify({
