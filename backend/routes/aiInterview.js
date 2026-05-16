@@ -55,7 +55,7 @@ router.post("/create-session", authenticateToken, (req,res)=>{
     const{role, difficulty, conversation} = req.body
     const userId = req.user.user_id
     const sql = `INSERT INTO(user_id, role, difficulty, conversation) VALUES(?,?,?,?)`;
-    db.query(sql,[userId, role, difficulty, JSON.stringfy(conversation)], (err,result)=>{
+    db.query(sql,[userId, role, difficulty, JSON.stringify(conversation)], (err,result)=>{
         if(err){
             console.log("CREATE SESSION ERROR : ", err)
             return res.status(500).json({
