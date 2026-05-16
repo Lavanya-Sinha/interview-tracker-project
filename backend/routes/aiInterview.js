@@ -90,4 +90,22 @@ router.put("/update-session/:id",authenticateToken, (req,res)=>{
 
 })
 
+router.get("/sessions", authenticateToken, (req, res)=>{
+    const userId = req.user.user_id
+    const sql = `SELECT * FROM ai_session WHERE user_id = ? ORDER BY created_at DESC`
+    db.query(sql,[userId],(err,result)=>{
+        if(err){
+           console.log("FETCH SESSION ERROR : ", err);
+           return res.status(500).json({
+            success : false,
+            message : "Session Fetch Fail"
+           })
+        }
+        return res.status(200).json({
+            success : true,
+            sessions : result
+        })
+    })
+})
+
 module.exports = router;
