@@ -4,7 +4,7 @@ import {useAuth} from '../hooks/useAuth'
 const AIHistory = ()=>{
     const {token} = useAuth()
     const[sessions, setSessions] = useState([])
-    useEffect(
+    useEffect(()=>{
         fetch( "https://interview-tracker-project.onrender.com/api/ai/sessions",
             {
                 headers : {
@@ -22,8 +22,8 @@ const AIHistory = ()=>{
        .catch((err)=>{
         console.log("FETCH SESSION ERROR : ", err);
         
-       }), []
-    )
+       }) 
+},[token])
     return(
      <div className="min-h-screen bg-slate-900 text-white p-8">
         <h1 className="text-4xl font-bold mb-8">
