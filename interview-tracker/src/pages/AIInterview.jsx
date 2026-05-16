@@ -1,11 +1,15 @@
 import { useState } from "react"
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+
 const AIInterviews = ()=>{
+    const {token} = useAuth()
     const [difficulty,setDifficulty] = useState("Intermediate")
     const [answer, setAnswer] = useState("");
     const [questionLoading, setQuestionLoading] = useState(false);
     const [evaluationLoading, setEvaluationLoading] = useState(false);
     const [conversation, setConversation] = useState([]);
+    const [sessionId, setSessionId] = useState(null)
     const location = useLocation();
     const role = location.state?.role;
     const startInterview = ()=>{
@@ -28,18 +32,37 @@ const AIInterviews = ()=>{
 
         .then((data) => {
 
-         const firstRound = [
-   {
-      question: data.question,
-      answer: "",
-      feedback: ""
-   }
-];
+              const firstRound = [
+                 {
+                    question: data.question,
+                    answer: "",
+                    feedback: ""
+                 }
+                ];
 
 console.log(firstRound);
 
 setConversation(firstRound);
 
+fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
+    method : "POST",
+    headers : {
+        'Content-Type' : 'application/json',
+        Authorization: `Bearer ${token}`
+    },
+    body : JSON.stringify({
+        role,
+        difficulty,
+        conversation : firstRound
+    })
+})
+.then((response)=> {
+    return response.json()
+})
+
+.then((data)=>{
+    setSessionId(data.sessionId)
+})
             setQuestionLoading(false);
 
         })
@@ -61,7 +84,7 @@ setConversation(firstRound);
             method: "POST",
 
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             },
 
             body: JSON.stringify({
@@ -99,6 +122,26 @@ setConversation(firstRound);
              }
             );
       setConversation(updatedConversation);
+
+      fetch( `https://interview-tracker-project.onrender.com/api/ai/update-session/${sessionId}`,{
+        method : "PUT",
+        headers : {
+            "Content-Type" : "application/json",
+             Authorization: `Bearer ${token}`
+        },
+        body : JSON.stringify({
+           conversation : updatedConversation
+        })
+      }
+      )
+      .then((response)=>{
+        return response.json()
+      })
+      .then((data)=>{
+        console.log("Session Updated : ",data);
+        
+      })
+
       setAnswer("");
       setEvaluationLoading(false);
 

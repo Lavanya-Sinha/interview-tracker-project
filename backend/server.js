@@ -5,35 +5,11 @@ const cors = require("cors")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 require("dotenv").config()
+const authenticateToken = require("./middleware/authenticateToken")
 const app = express()
 app.use(cors())
 app.use(express.json())
 const aiInterviewRoutes = require('./routes/aiInterview')
-
-// AUTHENTICATION
-const authenticateToken = (req,res,next)=>{
-   const authHeader = req.headers["authorization"]
-   if(!authHeader){
-    return res.status(401).json({ message: "No token" });
-   }
-   const parts = authHeader.split(" ")
-   const token = parts[1]
-   if (!token) {
-  return res.status(401).json({ message: "Invalid token" });
-}
-console.log("TOKEN:", token);
-   jwt.verify(token,process.env.JWT_SECRET,(err,user)=>{
-     console.log("TOKEN RECEIVED:", token);
-     console.log("ERROR:", err);
-     console.log("USER:", user);
-    if(err){
-        console.log(err)
-        return res.status(401).json({message : "Unauthorized User"})
-    }
-    req.user = user
-    next()
-   })
-}
 
 //AI AGENT
 app.use("/api/ai",aiInterviewRoutes)

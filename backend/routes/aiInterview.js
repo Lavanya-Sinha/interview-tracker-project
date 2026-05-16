@@ -1,8 +1,9 @@
 const express = require("express")
 const { generateInterviewQuestions, evaluateAnswer } = require("../services/groqService")
+const authenticateToken = require("../middleware/authenticateToken")
+const db = require("../db")
 const router = express.Router()
-
-router.post("/start", (req,res)=>{
+router.post("/start", authenticateToken, (req,res)=>{
         const{role,difficulty} = req.body
         generateInterviewQuestions(role, difficulty)
 
@@ -26,7 +27,7 @@ router.post("/start", (req,res)=>{
         });
 })
 
-router.post("/evaluate", (req,res)=>{
+router.post("/evaluate", authenticateToken, (req,res)=>{
     const{question, answer} = req.body
     evaluateAnswer(question,answer)
      .then((result) => {
@@ -48,6 +49,45 @@ router.post("/evaluate", (req,res)=>{
             });
 
         });
+})
+
+router.post("/create-session", authenticateToken, (req,res)=>{
+    const{role, difficulty, conversation} = req.body
+    const userId = req.user.user_id
+    const sql = `INSERT INTO(user_id, role, difficulty, conversation) VALUES(?,?,?,?)`;
+    db.query(sql,[userId, role, difficulty, JSON.stringfy(conversation)], (err,result)=>{
+        if(err){
+            console.log("CREATE SESSION ERROR : ", err)
+            return res.status(500).json({
+                 success: false,
+                 message: "Server error"
+            })
+        }
+        return res.status(200).json({
+            success : true,
+            sessionId : result.insertId
+        })
+    })
+})
+
+router.put("/update-session/:id",authenticateToken, (req,res)=>{
+    const sessionId = Number.parseInt(req.params.id)
+    const {conversation} = req.body
+    const sql = `UPDATE ai_session SET converation = ? WHERE id = ?`
+    db.query(sql,[JSON.stringify(conversation), sessionId],(err,result)=>{
+        if(err){
+            console.log("Update Session Error : ",err)
+            return res.status(500).json({
+                success : false,
+                message : "Server Error"
+            })
+        }
+        return res.status(200).json({
+            success : true,
+            message : "Session Updated"
+        })
+    })
+
 })
 
 module.exports = router;
