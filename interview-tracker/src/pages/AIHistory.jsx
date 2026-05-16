@@ -37,7 +37,7 @@ const AIHistory = ()=>{
             sessions.map((session) => (
                 // NOSONAR
                 <div key={session.id} className="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-3 cursor-pointer hover:border-blue-500 transition-all" 
-                onClick={
+                onClick={()=>{
                     navigate('/ai-interview', {
                         state : {
                             role : session.role,
@@ -46,7 +46,7 @@ const AIHistory = ()=>{
                             conversation : JSON.parse(session.conversation)
                         }
                     })
-                }
+                 } }
                 >
 
                     <h2 className="text-2xl font-semibold">
