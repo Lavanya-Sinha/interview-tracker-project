@@ -4,7 +4,8 @@ import { lazy, Suspense } from "react";
   const Login = lazy(()=>import('./pages/Login'))
   const SignUp = lazy(()=>import('./pages/SignUp'))
   const Analytics = lazy(()=>import('./pages/Analytics'))
-  import AIInterview from "./pages/AIInterview";
+  const AIInterview = lazy(()=>import('./pages/AIInterview'))
+  const AIHistory = lazy(()=>import('./pages/AIHistory'))
   
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/ai-interview" element={<AIInterview />} />
+        <Route path="/ai-history" element={<AIHistory />} />
       </Routes>
     </Suspense>
      </BrowserRouter>
