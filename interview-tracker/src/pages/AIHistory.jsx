@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {useAuth} from '../hooks/useAuth'
 
 const AIHistory = ()=>{
     const {token} = useAuth()
+    const navigate = useNavigate()
     const[sessions, setSessions] = useState([])
     useEffect(()=>{
         fetch( "https://interview-tracker-project.onrender.com/api/ai/sessions",
@@ -33,7 +35,19 @@ const AIHistory = ()=>{
     <div className="space-y-6">
         {
             sessions.map((session) => (
-                <div key={session.id} className="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-3" >
+                // NOSONAR
+                <div key={session.id} className="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-3 cursor-pointer hover:border-blue-500 transition-all" 
+                onClick={
+                    navigate('/ai-interview', {
+                        state : {
+                            role : session.role,
+                            difficulty : session.difficulty,
+                            sessionId : session.id,
+                            conversation : JSON.parse(session.conversation)
+                        }
+                    })
+                }
+                >
 
                     <h2 className="text-2xl font-semibold">
                         {session.role}

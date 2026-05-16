@@ -4,14 +4,17 @@ import { useAuth } from "../hooks/useAuth";
 
 const AIInterviews = ()=>{
     const {token} = useAuth()
-    const [difficulty,setDifficulty] = useState("Intermediate")
+    const location = useLocation();
+    const role = location.state?.role;
+    const restoredConversation = location.state?.conversation;
+    const restoredSessionId = location.state?.sessionId;
+    const restoredDifficulty = location.state?.difficulty;
+    const [difficulty,setDifficulty] = useState(restoredDifficulty||"Intermediate")
     const [answer, setAnswer] = useState("");
     const [questionLoading, setQuestionLoading] = useState(false);
     const [evaluationLoading, setEvaluationLoading] = useState(false);
-    const [conversation, setConversation] = useState([]);
-    const [sessionId, setSessionId] = useState(null)
-    const location = useLocation();
-    const role = location.state?.role;
+    const [conversation, setConversation] = useState(restoredConversation||[]);
+    const [sessionId, setSessionId] = useState(restoredSessionId||null)
     const startInterview = ()=>{
         setQuestionLoading(true);
         fetch("https://interview-tracker-project.onrender.com/api/ai/start",{
