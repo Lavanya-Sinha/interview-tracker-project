@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {useAuth} from '../hooks/useAuth'
+const { toast } = useToast();
 
 const AIHistory = ()=>{
     const {token} = useAuth()
@@ -26,6 +27,42 @@ const AIHistory = ()=>{
         
        }) 
 },[token])
+
+const handleDeleteSession = (id)=>{
+    fetch(`https://interview-tracker-project.onrender.com/api/ai/session/${id}`,
+        {
+            method : "DELETE",
+            headers : {
+                Authorization : `Bearer ${token}`
+            }
+        }
+    )
+     .then((response) => {
+
+        return response.json();
+
+    })
+
+    .then(()=>{
+        const updateSessions = sessions.filter((session)=>{
+            return session.id !== id
+        })
+        setSessions(updateSessions)
+           toast(
+            {
+            title: "Session Deleted",
+            description: "AI interview session removed successfully."}
+            );
+    })
+
+    .catch((error) => {
+        console.log("DELETE SESSION ERROR:", error);
+           toast({
+             title: "Session Deleted",
+             description:"AI interview session removed successfully."
+              });
+      });
+}
     return(
      <div className="min-h-screen bg-slate-900 text-white p-8">
         <h1 className="text-4xl font-bold mb-8">
@@ -63,10 +100,18 @@ const AIHistory = ()=>{
                             ).toLocaleString()
                         }
                     </p>
+                    <div className="flex justify-end">
+                      <button onClick={(e) => {
+                         e.stopPropagation();
+                          handleDeleteSession(session.id);
+                         }}
+                          className="bg-red-900 text-white px-3 py-1 rounded-lg hover:bg-red-700 transition" >
+                            Delete 
+                        </button>
+                    </div>
                 </div>
             ))
         }
-
     </div>
 
 </div>
