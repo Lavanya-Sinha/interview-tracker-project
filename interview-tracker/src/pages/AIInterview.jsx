@@ -308,6 +308,14 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
                             value={answer}
                             onChange={(e) => setAnswer(e.target.value)}
                             className="w-full min-h-[180px] bg-slate-800 border border-slate-700 rounded-xl p-4 outline-none resize-none text-zinc-200 leading-7"
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter" && !e.shiftKey){
+                                     e.preventDefault();
+                                      if (answer.trim() !== "" && !evaluationLoading) {
+                                         submitAnswer();
+                                        } 
+                                     }
+                                    }}
                         />
 
                       <div className="flex items-center gap-4">
