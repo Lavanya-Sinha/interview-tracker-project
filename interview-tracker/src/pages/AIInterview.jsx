@@ -6,7 +6,8 @@ const AIInterviews = ()=>{
     const {token} = useAuth()
     const navigate = useNavigate();
     const location = useLocation();
-    const role = location.state?.role;
+    const restoredRole = location.state?.role;
+    const [role] = useState( restoredRole || "");
     const restoredConversation = location.state?.conversation;
     const restoredSessionId = location.state?.sessionId;
     const restoredDifficulty = location.state?.difficulty;
