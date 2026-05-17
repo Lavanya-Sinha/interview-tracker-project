@@ -1,7 +1,6 @@
-import { useState } from "react"
-import { useLocation } from "react-router-dom";
+import { useState, useEffect, useRef } from "react"
+import { useNavigate ,useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
 
 const AIInterviews = ()=>{
     const {token} = useAuth()
@@ -17,6 +16,12 @@ const AIInterviews = ()=>{
     const [evaluationLoading, setEvaluationLoading] = useState(false);
     const [conversation, setConversation] = useState(restoredConversation||[]);
     const [sessionId, setSessionId] = useState(restoredSessionId||null)
+    const bottomRef = useRef(null)
+    useEffect(() => {
+      bottomRef.current?.scrollIntoView({
+        behavior: "smooth"
+       });
+    }, [conversation]);
     const startInterview = ()=>{
         setQuestionLoading(true);
         fetch("https://interview-tracker-project.onrender.com/api/ai/start",{
@@ -274,6 +279,7 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
             </div>
          ))
            }
+           <div ref={bottomRef}></div>
             {
                 conversation.length > 0 && (
 
