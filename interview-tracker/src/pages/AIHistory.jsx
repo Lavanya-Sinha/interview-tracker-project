@@ -63,7 +63,25 @@ const handleDeleteSession = (id)=>{
            AI Interview History
         </h1>
 
-    <div className="space-y-6">
+{
+sessions.length === 0 ? (
+    <div className="bg-slate-800 border border-slate-700 rounded-2xl p-10 text-center space-y-4">
+      <h2 className="text-3xl font-bold text-white">
+        No AI Interviews Yet.
+      </h2>
+      <p className="text-zinc-400">
+        Start Your First AI Mock Interview To Begin Your Preparation!
+      </p>
+      <button onClick={()=>{
+        navigate("/ai-interview")
+      }}
+       className="bg-slate-700 text-white px-6 py-3 rounded-lg transition-all duration-300 border border-slate-600 hover:bg-white hover:text-slate-900 hover:border-blue-400 hover:shadow-[0_0_8px_rgba(96,165,250,0.6),0_0_16px_rgba(168,85,247,0.35)]"
+      >
+        Start Interview
+      </button>
+    </div>
+): (
+     <div className="space-y-6">
         {
             sessions.map((session) => (
                 <div key={session.id} className="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-3 cursor-pointer hover:border-blue-500 transition-all" 
@@ -107,6 +125,8 @@ const handleDeleteSession = (id)=>{
             ))
         }
     </div>
+)
+}
 
 </div>
     )

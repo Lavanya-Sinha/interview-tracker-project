@@ -257,7 +257,7 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
                    <h3 className="text-xl font-semibold text-blue-400">
                          Your Answer :
                     </h3>
-                   <p className="text-zinc-300 leading-7">
+                   <p className="text-zinc-300 leading-7 whitespace-pre-wrap">
                        {round.answer}
                    </p>
                </div>
