@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {useAuth} from '../hooks/useAuth'
 import {useToast} from '../hooks/useToast'
+
 const AIHistory = ()=>{
     const {token} = useAuth()
     const navigate = useNavigate()
-    const toast = useToast()
+    const {toast} = useToast()
     const[sessions, setSessions] = useState([])
     useEffect(()=>{
         fetch( "https://interview-tracker-project.onrender.com/api/ai/sessions",
