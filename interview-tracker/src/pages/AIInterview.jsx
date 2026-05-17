@@ -170,7 +170,7 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
 
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
 
-               <div className="flex items-center justify-between">
+               <div className="flex items-center justify-between mb-6">
                     <h1 className="text-4xl font-bold">
                          AI Interview
                     </h1>
