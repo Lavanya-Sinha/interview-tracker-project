@@ -16,6 +16,7 @@ const AIInterviews = ()=>{
     const [evaluationLoading, setEvaluationLoading] = useState(false);
     const [conversation, setConversation] = useState(restoredConversation||[]);
     const [sessionId, setSessionId] = useState(restoredSessionId||null)
+    const [isInterviewEnded, setIsInterviewEnded] = useState(false)
     const bottomRef = useRef(null)
     useEffect(() => {
       bottomRef.current?.scrollIntoView({
@@ -279,9 +280,22 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
             </div>
          ))
            }
+          {
+            isInterviewEnded &&(
+                <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 text-center space-y-3">
+                     <h2 className="text-3xl font-bold text-white"> 
+                        Interview Completed.
+                     </h2>
+                     <p className="text-zinc-400">
+                        Great Job Completing Your AI Mock Interview!
+                     </p>
+                </div>
+            )
+          }
+
            <div ref={bottomRef}></div>
             {
-                conversation.length > 0 && (
+                conversation.length > 0 &&   !isInterviewEnded &&(
 
                     <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
 
@@ -312,6 +326,14 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
                                 "Submit Answer"
                             }
 
+                        </button>
+
+                        <button onClick={()=>{
+                            setIsInterviewEnded(true)
+                        }}
+                          className="bg-red-900 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition"
+                        >
+                          End Interview
                         </button>
 
                     </div>
