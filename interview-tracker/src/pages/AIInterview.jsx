@@ -300,8 +300,8 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
 
                         <button
                             onClick={submitAnswer}
-                            disabled={evaluationLoading}
-                            className="bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold disabled:opacity-50 hover:bg-blue-500 hover:shadow-md transition-all duration-300"
+                            disabled={evaluationLoading || answer.trim === ""}
+                            className="bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-500 hover:shadow-md transition-all duration-300"
                         >
 
                             {
