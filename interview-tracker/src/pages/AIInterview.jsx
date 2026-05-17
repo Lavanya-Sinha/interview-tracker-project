@@ -174,7 +174,14 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
 
                 <div className="flex flex-col md:flex-row gap-4">
 
-                <h2>AI Interview For : {role}</h2>
+                 <div className="flex items-center gap-3">
+                   <span className="text-zinc-400 text-sm">
+                       Mock Interview For
+                    </span>
+                   <span className="bg-slate-800 border border-slate-700 text-white px-3 py-1 rounded-full text-sm">
+                        {role}
+                     </span>
+                </div>
                     <select
                         value={difficulty}
                         onChange={(e) => setDifficulty(e.target.value)}

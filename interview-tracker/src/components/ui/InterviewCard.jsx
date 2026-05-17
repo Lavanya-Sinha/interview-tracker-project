@@ -187,7 +187,20 @@ const startAIInterview = () => {
   Schedule
 </button>
 
-<button onClick={startAIInterview}>
+<button onClick={startAIInterview}
+disabled={interview.status !== "Applied"}
+   title={
+    interview.status !== "Applied"
+      ? "Only available for applied interviews"
+      : ""
+  }
+  className={`px-3 py-1 text-sm rounded transition-all duration-300 border ${
+  interview.status === "Applied" ||
+  interview.status === "Interview Scheduled"
+    ? "bg-slate-700 text-white border-slate-600 hover:bg-white hover:text-slate-900 hover:border-blue-400 hover:shadow-[0_0_8px_rgba(96,165,250,0.6),0_0_16px_rgba(168,85,247,0.35)]"
+    : "bg-slate-700 text-slate-400 border-slate-700 cursor-not-allowed"
+}`}
+>
     Start AI Interview
 </button>
   </div>
