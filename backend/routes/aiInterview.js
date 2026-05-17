@@ -111,7 +111,7 @@ router.get("/sessions", authenticateToken, (req, res)=>{
 router.delete("/session/:id",authenticateToken,(req,res)=>{
     const sessionId = Number.parseInt(req.params.id)
     const userId = req.user.user_id
-    const sql = `DELETE FROM    ai_session WHERE id = ? aAND user_id = ?`
+    const sql = `DELETE FROM    ai_session WHERE id = ? AND user_id = ?`
     db.query(sql,[sessionId,userId],(err,result)=>{
         if(err){
           console.log("DELETE SESSION ERROR : ",err);
