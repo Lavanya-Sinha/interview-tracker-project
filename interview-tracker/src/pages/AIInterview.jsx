@@ -1,9 +1,11 @@
 import { useState } from "react"
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const AIInterviews = ()=>{
     const {token} = useAuth()
+    const navigate = useNavigate();
     const location = useLocation();
     const role = location.state?.role;
     const restoredConversation = location.state?.conversation;
@@ -168,10 +170,17 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
 
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
 
-                <h1 className="text-4xl font-bold mb-6">
-                    AI Interview
-                </h1>
-
+               <div className="flex items-center justify-between">
+                    <h1 className="text-4xl font-bold">
+                         AI Interview
+                    </h1>
+                    <button onClick={() => {
+                     navigate("/ai-history");
+                      }}
+                    className="bg-slate-700 text-white px-4 py-2 rounded-lg transition-all duration-300 border border-slate-600 hover:bg-white hover:text-slate-900 hover:border-blue-400 hover:shadow-[0_0_8px_rgba(96,165,250,0.6),0_0_16px_rgba(168,85,247,0.35)]" >
+                         View History
+                     </button>
+                 </div>
                 <div className="flex flex-col md:flex-row gap-4">
 
                  <div className="flex items-center gap-3">
