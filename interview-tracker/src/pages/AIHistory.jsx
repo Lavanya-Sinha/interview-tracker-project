@@ -6,7 +6,7 @@ import useToast from '../hooks/useToast'
 const AIHistory = ()=>{
     const {token} = useAuth()
     const navigate = useNavigate()
-    const toast = useToast()
+   const { showToast } = useToast();
     const[sessions, setSessions] = useState([])
     useEffect(()=>{
         fetch( "https://interview-tracker-project.onrender.com/api/ai/sessions",
@@ -49,19 +49,12 @@ const handleDeleteSession = (id)=>{
             return session.id !== id
         })
         setSessions(updateSessions)
-           toast(
-            {
-            title: "Session Deleted",
-            description: "AI interview session removed successfully."}
-            );
+           showToast("Session deleted");
     })
 
     .catch((error) => {
         console.log("DELETE SESSION ERROR:", error);
-           toast({
-             title: "Session Deleted",
-             description:"AI interview session removed successfully."
-              });
+          showToast("Something went wrong");
       });
 }
     return(
