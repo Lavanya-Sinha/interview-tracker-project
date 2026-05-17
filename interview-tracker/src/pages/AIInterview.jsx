@@ -310,8 +310,7 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
                             className="w-full min-h-[180px] bg-slate-800 border border-slate-700 rounded-xl p-4 outline-none resize-none text-zinc-200 leading-7"
                         />
 
-
-
+                      <div className="flex items-center gap-4">
                         <button
                             onClick={submitAnswer}
                             disabled={evaluationLoading || answer.trim() === ""}
@@ -331,10 +330,11 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
                         <button onClick={()=>{
                             setIsInterviewEnded(true)
                         }}
-                          className="bg-red-900 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition"
+                          className="bg-slate-700 text-white px-6 py-3 rounded-lg border border-slate-600 hover:bg-white hover:text-slate-900 hover:border-red-400 hover:shadow-[0_0_8px_rgba(248,113,113,0.45)] transition-all duration-300"
                         >
                           End Interview
                         </button>
+                      </div>
 
                     </div>
                 )
