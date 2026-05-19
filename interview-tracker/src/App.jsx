@@ -18,7 +18,7 @@ function App() {
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/login" element={<Login />} />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/ai-interview" element={<AIInterviews />} />
+        <Route path="/ai-interview" element={<AIInterview />} />
         <Route path="/ai-interview/:id" element={<AIInterview />} />
         <Route path="/ai-history" element={<AIHistory />} />
       </Routes>
