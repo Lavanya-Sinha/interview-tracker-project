@@ -145,8 +145,10 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
     .then((data) => {
        
       const result = data.result;
-        const scorePart = result.split("FEEDBACK : ")[0]
-        const score = Number(scorePart.replace("SCORE: ",""))
+       console.log("RAW AI RESPONSE:");
+       console.log(result);
+        const scoreMatch = result.match(/\d+/);
+        const score = scoreMatch? Number(scoreMatch[0]) : null
         const feedbackPart = result.split("FOLLOW_UP_QUESTION:")[0];
 
         const followUpPart = result.split("FOLLOW_UP_QUESTION:")[1];
