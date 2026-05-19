@@ -76,7 +76,8 @@ const AIInterviews = ()=>{
                  {
                     question: data.question,
                     answer: "",
-                    feedback: ""
+                    feedback: "",
+                    score : null
                  }
                 ];
 
@@ -144,7 +145,8 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
     .then((data) => {
        
       const result = data.result;
-
+        const scorePart = result.split("FEEDBACK : ")[0]
+        const score = Number(scorePart.replace("SCORE: ",""))
         const feedbackPart = result.split("FOLLOW_UP_QUESTION:")[0];
 
         const followUpPart = result.split("FOLLOW_UP_QUESTION:")[1];
@@ -153,13 +155,15 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
         const lastRound = updatedConversation[updatedConversation.length - 1]
 
         lastRound.answer = answer;
+        lastRound.score = score;
 
         lastRound.feedback = feedbackPart.replace("Feedback:", "");
          updatedConversation.push(
              {
                 question: followUpPart,
                  answer: "",
-                 feedback: ""
+                 feedback: "",
+                 score : null
              }
             );
       setConversation(updatedConversation);
@@ -290,6 +294,14 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
                    </p>
                </div>
               )
+            }
+
+            {
+                round.score !== null && (
+                    <div className="inline-flex bg-blue-900 text-blue-300 px-3 py-1 rounded-full text-sm font-medium">
+                      Score : {round.score}/10
+                    </div>
+                )
             }
 
             {

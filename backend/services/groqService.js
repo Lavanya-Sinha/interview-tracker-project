@@ -39,6 +39,7 @@ return groq.chat.completions.create({
             Evaluate the answer briefly.
             Then generate ONE follow-up question.
            Format response EXACTLY like this:
+           SCORE : [1-10]
             Feedback:
             <feedback>
             FOLLOW_UP_QUESTION:
