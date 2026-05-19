@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react"
-import { useNavigate ,useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import useToast from "../hooks/useToast"
 
@@ -7,20 +7,42 @@ const AIInterviews = ()=>{
     const {token} = useAuth()
     const {showToast} = useToast()
     const navigate = useNavigate();
-    const location = useLocation();
-    const restoredRole = location.state?.role;
-    const [role] = useState( restoredRole || "");
-    const restoredConversation = location.state?.conversation;
-    const restoredSessionId = location.state?.sessionId;
-    const restoredDifficulty = location.state?.difficulty;
-    const [difficulty,setDifficulty] = useState(restoredDifficulty||"Intermediate")
+    const {id} = useParams()
+    const [role,setRole] = useState("");
+    const [difficulty,setDifficulty] = useState("Intermediate")
     const [answer, setAnswer] = useState("");
     const [questionLoading, setQuestionLoading] = useState(false);
     const [evaluationLoading, setEvaluationLoading] = useState(false);
-    const [conversation, setConversation] = useState(restoredConversation||[]);
-    const [sessionId, setSessionId] = useState(restoredSessionId||null)
+    const [conversation, setConversation] = useState([]);
+    const [sessionId, setSessionId] = useState(null)
     const [isInterviewEnded, setIsInterviewEnded] = useState(false)
     const bottomRef = useRef(null)
+
+    useEffect(()=>{
+       fetch( `https://interview-tracker-project.onrender.com/api/ai/session/${id}`,
+        {
+            headers : {
+                Authorization : `Bearer ${token}`
+            }
+        }
+       )
+       .then((response)=>{
+        return response.json()
+       })
+       .then((data)=>{
+        const session = data.session
+        setRole(session.role)
+        setDifficulty(session.difficulty)
+        setConversation(JSON.parse(session.conversation))
+        setSessionId(session.id)
+        setIsInterviewEnded(session.is_completed)
+       })
+       .catch((err)=>{
+        console.log("RESTORE SESSION ERROR : ", err);
+        
+       })
+    },[id,token])
+
     useEffect(() => {
       bottomRef.current?.scrollIntoView({
         behavior: "smooth"

@@ -145,4 +145,23 @@ router.patch("/session/:id/end",authenticateToken,(req,res)=>{
     })
 })
 
+router.get("/session/:id",authenticateToken,(req,res)=>{
+    const sessionId = Number.parseInt(req.params.id)
+    const userId = req.user.user_id
+    const sql = `SELECT * FROM ai_session WHERE id = ? AND user_id = ?`
+    db.query(sql,[sessionId,userId],(err,result)=>{
+        if(err){
+            console.log("FETCH SESSION ERROR : ",err);
+            
+        return res.status(500).json({
+            success : false,
+        })
+        }
+        return res.status(200).json({
+            success : true,
+            session : result[0]
+        })
+    })
+})
+
 module.exports = router;

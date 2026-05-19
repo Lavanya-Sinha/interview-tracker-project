@@ -86,14 +86,7 @@ sessions.length === 0 ? (
             sessions.map((session) => (
                 <div key={session.id} className="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-3 cursor-pointer hover:border-blue-500 transition-all" 
                 onClick={()=>{
-                    navigate('/ai-interview', {
-                        state : {
-                            role : session.role,
-                            difficulty : session.difficulty,
-                            sessionId : session.id,
-                            conversation : JSON.parse(session.conversation)
-                        }
-                    })
+                    navigate(`/ai-interview/${session.id}`)
                  } }
                 >
 
