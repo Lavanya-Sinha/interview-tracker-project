@@ -342,7 +342,9 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
                             fetch(`https://interview-tracker-project.onrender.com/api/ai/session/${sessionId}/end`,
                                 {
                                     method : "PATCH",
-                                    Authorization : `Bearer ${token}`
+                                    headers : {
+                                         Authorization : `Bearer ${token}`
+                                    }
                                 }
                             )
                             .then((response)=>{
