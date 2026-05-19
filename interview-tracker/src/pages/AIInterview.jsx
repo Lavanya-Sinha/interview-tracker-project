@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from "react"
 import { useNavigate ,useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import useToast from "../hooks/useToast"
 
 const AIInterviews = ()=>{
     const {token} = useAuth()
+    const {showToast} = useToast()
     const navigate = useNavigate();
     const location = useLocation();
     const restoredRole = location.state?.role;
@@ -337,7 +339,24 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
                         </button>
 
                         <button onClick={()=>{
-                            setIsInterviewEnded(true)
+                            fetch(`https://interview-tracker-project.onrender.com/api/ai/session/${sessionId}/end`,
+                                {
+                                    method : "PATCH",
+                                    Authorization : `Bearer ${token}`
+                                }
+                            )
+                            .then((response)=>{
+                                return response.json()
+                            })
+                            .then(()=>{
+                               setIsInterviewEnded(true)
+                               showToast("Interview Completed")
+                               
+                            })
+                            .catch((err)=>{
+                                console.log("END INTERVIEW ERROR : ",err);
+                                
+                            })
                         }}
                           className="bg-slate-700 text-white px-6 py-3 rounded-lg border border-slate-600 hover:bg-white hover:text-slate-900 hover:border-red-400 hover:shadow-[0_0_8px_rgba(248,113,113,0.45)] transition-all duration-300"
                         >

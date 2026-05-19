@@ -127,4 +127,22 @@ router.delete("/session/:id",authenticateToken,(req,res)=>{
     })
 })
 
+router.patch("/session/:id/end",authenticateToken,(req,res)=>{
+    const sessionId = Number.parseInt(req.params.id)
+    const userId = req.user.user_id
+    const sql = `UPDATE ai_session SET is_completed = true WHERE id = ? AND user_id = ?`
+    db.query(sql,[sessionId,userId],(err,result)=>{
+        if(err){
+            return res.status(500).json({
+                success : false
+            }
+            )
+        }
+        return res.status(200).json({
+            success : true
+        }
+        )
+    })
+})
+
 module.exports = router;
