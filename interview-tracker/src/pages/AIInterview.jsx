@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react"
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import useToast from "../hooks/useToast"
 
@@ -7,8 +7,9 @@ const AIInterviews = ()=>{
     const {token} = useAuth()
     const {showToast} = useToast()
     const navigate = useNavigate();
+    const location = useLocation()
     const {id} = useParams()
-    const [role,setRole] = useState("");
+    const [role,setRole] = useState(location.state?.role || "");
     const [difficulty,setDifficulty] = useState("Intermediate")
     const [answer, setAnswer] = useState("");
     const [questionLoading, setQuestionLoading] = useState(false);
