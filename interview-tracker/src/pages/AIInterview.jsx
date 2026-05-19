@@ -19,6 +19,7 @@ const AIInterviews = ()=>{
     const bottomRef = useRef(null)
 
     useEffect(()=>{
+        if (!id) return;
        fetch( `https://interview-tracker-project.onrender.com/api/ai/session/${id}`,
         {
             headers : {
@@ -242,9 +243,9 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
 
                     </select>
 
-
-
-                    <button
+                    {
+                        id ? null :
+                    (<button
                         onClick={startInterview}
                         disabled={questionLoading}
                         className="bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold disabled:opacity-50 hover:bg-blue-500 hover:shadow-md transition-all duration-300"
@@ -258,7 +259,8 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
                             "Start Interview"
                         }
 
-                    </button>
+                    </button>)
+                    }
 
                 </div>
 
