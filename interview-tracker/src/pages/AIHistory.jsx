@@ -108,9 +108,11 @@ sessions.length === 0 ? (
                     
                     {
                       session.average_score && (
-                      <span className="bg-blue-900 text-blue-300 px-3 py-1 rounded-full text-sm">
-                       ⭐ {session.average_score}/10
-                      </span>
+                        <div className="mt-3">
+                      <span className="bg-blue-900/40 text-blue-300 px-3 py-1 rounded-full text-sm font-medium">
+                        Score: {session.average_score}/10
+                        </span>
+                        </div>
                       )
                      }
 
