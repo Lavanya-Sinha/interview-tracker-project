@@ -149,7 +149,8 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
        console.log(result);
         const scoreMatch = result.match(/\d+/);
         const score = scoreMatch? Number(scoreMatch[0]) : null
-        const feedbackPart = result.split("FOLLOW_UP_QUESTION:")[0];
+        const feedbackPart = result.replace(/SCORE\s*:?\s*\d+/i, "").replace(/Feedback\s*:?/i, "")
+        .split("FOLLOW_UP_QUESTION:")[0];
 
         const followUpPart = result.split("FOLLOW_UP_QUESTION:")[1];
         
@@ -299,7 +300,9 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
             }
 
             {
-                round.score !== null && (
+                round.score !== null && 
+                 round.score !== undefined && 
+                (
                     <div className="inline-flex bg-blue-900 text-blue-300 px-3 py-1 rounded-full text-sm font-medium">
                       Score : {round.score}/10
                     </div>
@@ -378,12 +381,21 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
                         </button>
 
                         <button onClick={()=>{
+                         const scoreRounds = conversation.filter(
+                            round => typeof round.score === "number"
+                         )
+                         const totalScore = scoreRounds.reduce((sum,round)=>sum + round.score,0)
+                         const averageScore = scoreRounds.length > 0? Number((totalScore / scoreRounds.length).toFixed(2)) : 0
+
                             fetch(`https://interview-tracker-project.onrender.com/api/ai/session/${sessionId}/end`,
                                 {
                                     method : "PATCH",
                                     headers : {
                                          Authorization : `Bearer ${token}`
-                                    }
+                                    },
+                                    body : JSON.stringify({
+                                        averageScore
+                                    })
                                 }
                             )
                             .then((response)=>{
