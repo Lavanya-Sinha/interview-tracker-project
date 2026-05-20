@@ -20,6 +20,7 @@ const AIInterviews = ()=>{
     const [summary, setSummary] = useState("");
     const [summaryLoading, setSummaryLoading] = useState(false);
     const bottomRef = useRef(null)
+    const summaryRef = useRef(null)
 
     useEffect(()=>{
         if (!id) return;
@@ -40,6 +41,7 @@ const AIInterviews = ()=>{
         setConversation(JSON.parse(session.conversation))
         setSessionId(session.id)
         setIsInterviewEnded(session.is_completed)
+        setSummary(session.summary || "");
        })
        .catch((err)=>{
         console.log("RESTORE SESSION ERROR : ", err);
@@ -342,22 +344,32 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
 
            {
             summaryLoading &&(
-                <div className="text-slate-400 animate-pulse mt-4">
-                     Generating interview summary...
-                </div>
+               <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 mt-6 text-center animate-pulse">
+                  <div className="text-2xl font-semibold text-blue-400">
+                     Generating Interview Summary...
+                  </div>
+                  <p className="text-slate-400 mt-3">
+                    Analyzing your responses, strengths, and improvement areas.
+                  </p>
+               </div>
             )
            }
            
           {
             summary && (
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 mt-6">
-            <h2 className="text-xl font-semibold text-blue-400 mb-4">
-                Interview Summary
-            </h2>
-            <div className="whitespace-pre-wrap text-slate-300">
+            <div
+            ref={summaryRef}
+               className="bg-slate-900 border border-slate-800 rounded-2xl p-6 mt-6"
+            >
+              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 mt-6">
+                <h2 className="text-xl font-semibold text-blue-400 mb-4">
+                   Interview Summary
+               </h2>
+               <div className="whitespace-pre-wrap text-slate-300">
                 {summary}
+                </div>
+              </div>
             </div>
-        </div>
        )
        }
 
@@ -443,6 +455,12 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
                             .then((data)=>{
                                setSummary(data.summary)
                                setSummaryLoading(false);
+                               setTimeout(()=>{
+                                summaryRef.current?.scrollIntoView({
+                                 behavior: "smooth"
+                                  });
+                                 }, 100);
+
                             })
                             .catch((err)=>{
                                 console.log("SUMMARY ERROR:", err);
