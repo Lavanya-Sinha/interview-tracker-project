@@ -17,6 +17,8 @@ const AIInterviews = ()=>{
     const [conversation, setConversation] = useState([]);
     const [sessionId, setSessionId] = useState(null)
     const [isInterviewEnded, setIsInterviewEnded] = useState(false)
+    const [summary, setSummary] = useState("");
+    const [summaryLoading, setSummaryLoading] = useState(false);
     const bottomRef = useRef(null)
 
     useEffect(()=>{
@@ -338,6 +340,27 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
             )
           }
 
+           {
+            summaryLoading &&(
+                <div className="text-slate-400 animate-pulse mt-4">
+                     Generating interview summary...
+                </div>
+            )
+           }
+           
+          {
+            summary && (
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 mt-6">
+            <h2 className="text-xl font-semibold text-blue-400 mb-4">
+                Interview Summary
+            </h2>
+            <div className="whitespace-pre-wrap text-slate-300">
+                {summary}
+            </div>
+        </div>
+       )
+       }
+
            <div ref={bottomRef}></div>
             {
                 conversation.length > 0 &&   !isInterviewEnded &&(
@@ -405,6 +428,27 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
                             .then(()=>{
                                setIsInterviewEnded(true)
                                showToast("Interview Completed")
+                                   setSummaryLoading(true)
+                               fetch(`https://interview-tracker-project.onrender.com/api/ai/session/${sessionId}/summary`,
+                                {
+                                    method : "POST",
+                                    headers : {
+                                        "Content-Type" : "application/json",
+                                        Authorization : `Bearer ${token}`
+                                    },
+                                    body : JSON.stringify({conversation})
+                                }
+                            )
+                            .then((response)=>response.json())
+                            .then((data)=>{
+                               setSummary(data.summary)
+                               setSummaryLoading(false);
+                            })
+                            .catch((err)=>{
+                                console.log("SUMMARY ERROR:", err);
+                                setSummaryLoading(false);
+                                  showToast("Summary generation failed");
+                            })
                                
                             })
                             .catch((err)=>{

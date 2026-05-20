@@ -1,5 +1,5 @@
 const express = require("express")
-const { generateInterviewQuestions, evaluateAnswer } = require("../services/groqService")
+const { generateInterviewQuestions, evaluateAnswer, generateSummary } = require("../services/groqService")
 const authenticateToken = require("../middleware/authenticateToken")
 const db = require("../db")
 const router = express.Router()
@@ -164,6 +164,32 @@ router.get("/session/:id",authenticateToken,(req,res)=>{
             session : result[0]
         })
     })
+})
+
+router.post("/session/:id/summary",authenticateToken,(req,res)=>{
+    const{conversation} = req.body
+    generateSummary(conversation)
+    .then((summary)=>{
+        const sql = `UPDATE ai_session SET summary = ? WHERE id = ? AND user_id = ?`
+        db.query(sql,[summary, req.params.id, req.user.user_id],(err)=>{
+            if(err){
+                console.log("SESSION SUMMARY ERROR: ",err);
+                return res.status(500).json({
+                    success : false,
+                })
+            }
+            return res.status(200).json({
+                success : true,
+                summary 
+            })
+        })
+    })
+    .catch((err)=>{
+    console.log("GENERATE SUMMARY ERROR:", err);
+    return res.status(500).json({
+        success:false
+    });
+})
 })
 
 module.exports = router;

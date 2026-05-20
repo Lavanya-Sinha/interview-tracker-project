@@ -57,7 +57,34 @@ return groq.chat.completions.create({
 })
 }
 
+const generateSummary = (conversation)=>{
+    return groq.chat.completions.create({
+        messages : [
+            {
+                role : "user",
+                content : `Analyze this mock interview : ${JSON.stringify(conversation)}
+                Provide:
+                SUMMARY:
+                <overall performance>
+                STRENGTHS:
+                <bullet points>
+                WEAKNESSES:
+                <bullet points>
+                RECOMMENDATIONS:
+                <bullet points>
+                Keep it consice and professional
+                `
+            }
+        ],
+         model: "llama-3.3-70b-versatile"
+    })
+     .then((chatCompletion) => {
+        return chatCompletion.choices[0].message.content;
+    });
+}
+
 module.exports = {
     generateInterviewQuestions,
-    evaluateAnswer
+    evaluateAnswer,
+    generateSummary
 };
