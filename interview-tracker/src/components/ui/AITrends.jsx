@@ -22,7 +22,7 @@ const AITrends = ({aiSessions})=>{
                 <LineChart data={scoredData}>
                    <CartesianGrid strokeDasharray="3 3" />
                    <XAxis dataKey="date" />
-                   <YAxis domain={[0, 10]} />
+                   <YAxis  domain={[0,10]} ticks={[0,2,4,6,8,10]} />
                     <Tooltip />
                     <Line type="monotone" dataKey="score"/>
                 </LineChart>
