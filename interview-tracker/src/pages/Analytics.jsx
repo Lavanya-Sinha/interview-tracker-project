@@ -94,7 +94,7 @@ const bestAIScore = scoredSessions.length > 0? Math.max(
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-        <Charts interviews={interviews} />
+        <Charts interviews={interviews} aiSessions={aiSessions} />
 
         {/* Summary Card */}
         <div className="bg-slate-800 p-6 rounded-lg shadow-md hover:shadow-lg">

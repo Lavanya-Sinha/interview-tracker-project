@@ -1,6 +1,6 @@
-import { PieChart, Cell, Pie, Tooltip, ResponsiveContainer } from "recharts";
+import { PieChart, Cell, Pie, Tooltip, ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
 import { useEffect, useState } from "react";
-const Charts = ({ interviews }) => {
+const Charts = ({ interviews, aiSessions }) => {
   const safeData = interviews || [];
   const [mounted, setMounted] = useState(false);
 
@@ -27,6 +27,12 @@ useEffect(() => {
   console.log("RAW INTERVIEWS:", safeData);
 
   if (!mounted) return null;
+
+  const scoredData = aiSessions.filter(session => session.average_score !== null).map((session)=>({
+       date: new Date(session.created_at).toLocaleDateString(),
+       score: Number(session.average_score)
+  }))
+console.log(scoredData);
 
 return (
   <div className="bg-slate-800 p-6 rounded-lg shadow-md">
@@ -55,6 +61,30 @@ return (
   }}
 />
         </PieChart>
+       <div className="bg-slate-800 p-6 rounded-lg shadow-md">
+         <h3 className="text-lg font-semibold mb-4">
+          AI Performance Trend
+         </h3>
+         {
+           scoredData.length === 0 ? (
+            <p className="text-slate-400">
+              No AI interview data available yet.
+            </p>
+           ) : (
+            <div className="w-full h-[300px]">
+              <ResponsiveContainer width="100%"  height="100%">
+                <LineChart data={scoredData}>
+                   <CartesianGrid strokeDasharray="3 3" />
+                   <XAxis dataKey="date" />
+                   <YAxis domain={[0, 10]} />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="score"/>
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+           )
+         }
+       </div>
       </ResponsiveContainer>
     </div>
   </div>
