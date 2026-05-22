@@ -61,7 +61,10 @@ return (
   }}
 />
         </PieChart>
-       <div className="bg-slate-800 p-6 rounded-lg shadow-md">
+      </ResponsiveContainer>
+    </div>
+    
+    <div className="bg-slate-800 p-6 rounded-lg shadow-md">
          <h3 className="text-lg font-semibold mb-4">
           AI Performance Trend
          </h3>
@@ -85,8 +88,6 @@ return (
            )
          }
        </div>
-      </ResponsiveContainer>
-    </div>
   </div>
 );
 };
