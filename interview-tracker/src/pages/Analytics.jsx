@@ -18,7 +18,7 @@ const Analytics = () => {
   )
   .then((response)=>response.json())
   .then((data)=>{
-    setAISessions(data.aiSessions)
+    setAISessions(data.sessions)
   })
   .catch((err)=>{
     console.log("FETCH AI SESSIONS ERROR: ",err);
