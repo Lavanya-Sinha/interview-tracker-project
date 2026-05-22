@@ -35,7 +35,7 @@ useEffect(() => {
 console.log(scoredData);
 
 return (
-  <div>
+  <div className="space-y-6">
   <div className="bg-slate-800 p-6 rounded-lg shadow-md">
     <h3 className="text-lg font-semibold mb-4">Status Overview</h3>
 
@@ -65,7 +65,7 @@ return (
       </ResponsiveContainer>
     </div>
   </div>
-   <div className="bg-slate-800 p-6 rounded-lg shadow-md">
+   <div className="bg-slate-800 mt-10% p-6 rounded-lg shadow-md">
          <h3 className="text-lg font-semibold mb-4">
           AI Performance Trend
          </h3>

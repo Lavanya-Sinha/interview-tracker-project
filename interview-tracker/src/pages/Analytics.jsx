@@ -132,41 +132,60 @@ const bestAIScore = scoredSessions.length > 0? Math.max(
   </span>
 </div>
 </div>
+ </div>
 
-<div className="border-t border-slate-700 my-3"></div>
-<div  className="flex justify-between text-sm px-2 py-1 rounded hover:bg-slate-700/50 transition">
-<span className="text-cyan-400">AI Completed</span>
- <span className="font-semibold text-slate-100">
-    {completedAIInterviews}
-  </span>
-</div>
+<div className="bg-slate-800 p-6 rounded-lg shadow-md hover:shadow-lg mt-6">
+  <h3 className="text-lg font-semibold mb-4">
+    AI Highlights
+  </h3>
 
-<div className="flex justify-between text-sm px-2 py-1 rounded hover:bg-slate-700/50 transition">
-  <span className="text-purple-400">AI Active</span>
-   <span className="font-semibold text-slate-100">
-    {activeAIInterviews}
-   </span>
-</div>
+  <div className="space-y-3">
 
-<div className="flex justify-between text-sm px-2 py-1 rounded hover:bg-slate-700/50 transition">
-   <span className="text-blue-400">Average Score</span>
-     <span className="font-semibold text-slate-100">
-       {averageAIScore}
-     </span>
-</div>
+    <div className="flex justify-between px-2 py-1 rounded hover:bg-slate-700/50 transition">
+      <span className="text-yellow-400">
+        🏆 Best Score
+      </span>
 
-<div className="flex justify-between text-sm px-2 py-1 rounded hover:bg-slate-700/50 transition">
- <span className="text-green-400">Best Score</span>
- <span className="font-semibold text-slate-100">
-    {bestAIScore}
-  </span>
-</div>
-
-        </div>
-
-      </div>
-
+      <span className="font-semibold text-slate-100">
+        {bestAIScore}
+      </span>
     </div>
+
+    <div className="flex justify-between px-2 py-1 rounded hover:bg-slate-700/50 transition">
+      <span className="text-blue-400">
+        📈 Average Score
+      </span>
+
+      <span className="font-semibold text-slate-100">
+        {averageAIScore}
+      </span>
+    </div>
+
+    <div className="flex justify-between px-2 py-1 rounded hover:bg-slate-700/50 transition">
+      <span className="text-green-400">
+        ✅ Completed
+      </span>
+
+      <span className="font-semibold text-slate-100">
+        {completedAIInterviews}
+      </span>
+    </div>
+
+    <div className="flex justify-between px-2 py-1 rounded hover:bg-slate-700/50 transition">
+      <span className="text-purple-400">
+        ⏳ Active
+      </span>
+
+      <span className="font-semibold text-slate-100">
+        {activeAIInterviews}
+      </span>
+    </div>
+
+  </div>
+</div>
+
+ </div>
+ </div>
   </Layout>
 );
 };
