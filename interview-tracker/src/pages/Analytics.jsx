@@ -1,5 +1,6 @@
 import Layout from "../components/layout/Layout";
-import Charts from "../components/ui/Charts";
+import StatusOverview from "../components/ui/StatusOverview";
+import AITrends from "../components/ui/AITrends";
 import useAllInterviews from "../hooks/useAllInterviews";
 import { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
@@ -94,9 +95,9 @@ const bestAIScore = scoredSessions.length > 0? Math.max(
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-        <Charts interviews={interviews} aiSessions={aiSessions} />
+          <StatusOverview interviews={interviews} />
 
-        {/* Summary Card */}
+        {/* Insights */}
         <div className="bg-slate-800 p-6 rounded-lg shadow-md hover:shadow-lg">
           <h3 className="text-lg font-semibold mb-4">Insights</h3>
 
@@ -133,6 +134,8 @@ const bestAIScore = scoredSessions.length > 0? Math.max(
 </div>
 </div>
  </div>
+
+  <AITrends aiSessions={aiSessions} />
 
 <div className="bg-slate-800 p-6 rounded-lg shadow-md hover:shadow-lg mt-6">
   <h3 className="text-lg font-semibold mb-4">
