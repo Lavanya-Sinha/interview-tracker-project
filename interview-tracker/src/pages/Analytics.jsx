@@ -1,9 +1,30 @@
 import Layout from "../components/layout/Layout";
 import Charts from "../components/ui/Charts";
 import useAllInterviews from "../hooks/useAllInterviews";
+import { useState, useEffect } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 const Analytics = () => {
     const { interviews, loading } = useAllInterviews();
+    const [aiSessions, setAISessions] = useState([]);
+    const { token } = useAuth();
+    useEffect(()=>{
+  fetch("https://interview-tracker-project.onrender.com/api/ai/sessions",
+    {
+      headers : {
+           Authorization: `Bearer ${token}`
+      }
+    }
+  )
+  .then((response)=>response.json())
+  .then((data)=>{
+    setAISessions(data.aiSessions)
+  })
+  .catch((err)=>{
+    console.log("FETCH AI SESSIONS ERROR: ",err);
+  })
+},[token])
+
     if (loading) {
   return <p className="text-slate-400">Loading analytics...</p>;
 }
@@ -48,8 +69,20 @@ const calculateStreak = (interviews) => {
 
 };
 
-
 const streak = calculateStreak(interviews);
+
+const completedAIInterviews = aiSessions.filter(session => session.is_completed).length 
+const activeAIInterviews = aiSessions.filter(session => !session.is_completed).length;
+const scoredSessions = aiSessions.filter( session => session.average_score !== null)
+const averageAIScore = scoredSessions.length > 0? (
+   scoredSessions.reduce((sum, session)=> sum + Number(session.average_score),0) / scoredSessions.length
+).toFixed(2) : "0.00"
+
+const bestAIScore = scoredSessions.length > 0? Math.max(
+   ...scoredSessions.map(
+          session => Number(session.average_score))
+).toFixed(2) : "0.00"
+
    return (
   <Layout>
     <div className="max-w-5xl mx-auto w-full">
@@ -99,6 +132,36 @@ const streak = calculateStreak(interviews);
   </span>
 </div>
 </div>
+
+<div className="border-t border-slate-700 my-3"></div>
+<div  className="flex justify-between text-sm px-2 py-1 rounded hover:bg-slate-700/50 transition">
+<span className="text-cyan-400">AI Completed</span>
+ <span className="font-semibold text-slate-100">
+    {completedAIInterviews}
+  </span>
+</div>
+
+<div className="flex justify-between text-sm px-2 py-1 rounded hover:bg-slate-700/50 transition">
+  <span className="text-purple-400">AI Active</span>
+   <span className="font-semibold text-slate-100">
+    {activeAIInterviews}
+   </span>
+</div>
+
+<div className="flex justify-between text-sm px-2 py-1 rounded hover:bg-slate-700/50 transition">
+   <span className="text-blue-400">Average Score</span>
+     <span className="font-semibold text-slate-100">
+       {averageAIScore}
+     </span>
+</div>
+
+<div className="flex justify-between text-sm px-2 py-1 rounded hover:bg-slate-700/50 transition">
+ <span className="text-green-400">Best Score</span>
+ <span className="font-semibold text-slate-100">
+    {bestAIScore}
+  </span>
+</div>
+
         </div>
 
       </div>
