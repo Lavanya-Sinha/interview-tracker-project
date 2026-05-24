@@ -48,7 +48,10 @@ const initials = getInitials(user);
                  AI History
                  </Link>
                  {token && (
-                  <button onClick={logout}
+                  <button   onClick={() => {
+                    logout();
+                    navigate("/login");
+                  }}
                    className="text-slate-300 hover:text-red-900 transition-colors">
                     Log Out
                     </button>
