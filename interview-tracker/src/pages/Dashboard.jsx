@@ -17,7 +17,6 @@ useEffect(()=>{
   }
 },[token])
 
-const{logout} = useAuth()
 const[page, setPage] = useState(1)
 const [debouncedSearch, setDebouncedSearch] = useState("");
 const{interviews,loading,error, addInterview, deleteInterview, updateInterview,total, refetch, toggleFavorite} = useInterviews(page,debouncedSearch)
@@ -197,14 +196,6 @@ const totalPages = Math.ceil(total / 5);
     </button>
 
   </div>
-
-  <button
-    onClick={logout}
-    className="px-3 py-1 text-sm bg-red-500/10 text-red-400 border border-red-500/20 rounded-md hover:bg-red-500/20 transition"
-  >
-    Log Out
-  </button>
-
 </div>
   </Layout>
 );

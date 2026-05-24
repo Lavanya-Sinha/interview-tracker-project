@@ -68,7 +68,7 @@ const generateSummary = (conversation)=>{
                 <overall performance>
                 STRENGTHS:
                 <bullet points>
-                WEAKNESSES:
+                AREAS OF IMPROVEMENT:
                 <bullet points>
                 RECOMMENDATIONS:
                 <bullet points>

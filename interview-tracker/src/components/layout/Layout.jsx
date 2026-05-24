@@ -2,7 +2,7 @@ import { Link,useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 const Layout = ({ children }) => {
   const navigate = useNavigate()
-  const { user, token } = useAuth(); 
+  const { user, token, logout } = useAuth(); 
 
 const getInitials = (email) => {
   if (!email) return "";
@@ -37,11 +37,28 @@ const initials = getInitials(user);
                 >
                  Analytics
                 </button>
+                <Link
+                to="/ai-interview"
+                className="text-slate-300 hover:text-white">
+                  AI Interview
+                  </Link>
+                <Link
+                to="/ai-history"
+                className="text-slate-300 hover:text-white">
+                 AI History
+                 </Link>
+                 {token && (
+                  <button onClick={logout}
+                   className="text-slate-300 hover:text-red-900 transition-colors">
+                    Log Out
+                    </button>
+                  )}
              {token && (
   <div className="bg-slate-700 text-slate-200 px-2 py-0 rounded-full text-sm font-medium">
     {initials}
   </div>
 )}
+
            {!token && (
   <>
     <Link to="/login" className="text-slate-300 hover:text-white">

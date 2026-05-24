@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {useAuth} from '../hooks/useAuth'
 import useToast from '../hooks/useToast'
+import Layout from "../components/layout/Layout";
 
 const AIHistory = ()=>{
     const {token} = useAuth()
     const navigate = useNavigate()
    const { showToast } = useToast();
     const[sessions, setSessions] = useState([])
+    const [loading, setLoading] = useState(true);
     useEffect(()=>{
         fetch( "https://interview-tracker-project.onrender.com/api/ai/sessions",
             {
@@ -22,9 +24,11 @@ const AIHistory = ()=>{
         .then((data)=>{
             console.log(data.sessions);
             setSessions(data.sessions)
+             setLoading(false);
         })
        .catch((err)=>{
         console.log("FETCH SESSION ERROR : ", err);
+         setLoading(false);
         
        }) 
 },[token])
@@ -58,14 +62,22 @@ const handleDeleteSession = (id)=>{
       });
 }
     return(
-     <div className="min-h-screen bg-slate-900 text-white p-8">
+<Layout>
+  <div className="w-full max-w-4xl mx-auto space-y-6">
         <h1 className="text-4xl font-bold mb-8">
            AI Interview History
         </h1>
-
 {
-sessions.length === 0 ? (
-    <div className="bg-slate-800 border border-slate-700 rounded-2xl p-10 text-center space-y-4">
+    
+     loading ? (
+    <div className="bg-slate-800 border border-slate-700 rounded-2xl p-10 text-center">
+      <p className="text-slate-400">
+        Loading interview sessions...
+      </p>
+    </div>
+  ) : (
+      sessions.length === 0 ? (
+       <div className="bg-slate-800 border border-slate-700 rounded-2xl p-10 text-center space-y-4">
       <h2 className="text-3xl font-bold text-white">
         No AI Interviews Yet.
       </h2>
@@ -130,9 +142,11 @@ sessions.length === 0 ? (
         }
     </div>
 )
+)
 }
 
 </div>
+</Layout>
     )
 }
 export default AIHistory 

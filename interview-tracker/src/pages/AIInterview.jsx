@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react"
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import useToast from "../hooks/useToast"
+import Layout from "../components/layout/Layout";
 
 const AIInterviews = ()=>{
     const {token} = useAuth()
@@ -208,7 +209,8 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
 };
 
    return(
-    <div className="min-h-screen bg-slate-900 text-white flex justify-center items-start p-8">
+    <Layout>
+    <div className="w-full max-w-4xl mx-auto space-y-6">
 
         <div className="w-full max-w-4xl space-y-6">
 
@@ -232,7 +234,7 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
                        Mock Interview For
                     </span>
                    <span className="bg-slate-800 border border-slate-700 text-white px-3 py-1 rounded-full text-sm">
-                        {role}
+                        {role || "Awaiting Role..."}
                      </span>
                 </div>
                     <select
@@ -365,8 +367,44 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
                 <h2 className="text-xl font-semibold text-blue-400 mb-4">
                    Interview Summary
                </h2>
-               <div className="whitespace-pre-wrap text-slate-300">
-                {summary}
+               <div className="space-y-3">
+               {summary.split("\n").map((line, index) => {
+                if (line.startsWith("SUMMARY:")) {
+                    return (
+                         <h3 key={index}
+                         className="text-blue-400 text-lg font-semibold mt-2">
+                            📋 Summary</h3>
+                    );
+                }
+                if (line.startsWith("STRENGTHS:")) {
+                    return(
+                          <h3 key={index}
+                          className="text-green-400 text-lg font-semibold mt-4">
+                            💪 Strengths </h3>
+                    );
+                }
+                if (line.startsWith("AREAS FOR IMPROVEMENT:")) {
+                    return (
+                    <h3
+                    key={index}
+                     className="text-orange-400 text-lg font-semibold mt-4">
+                         📈 Areas For Improvement</h3>
+                         );
+                        }
+                if (line.startsWith("RECOMMENDATIONS:")) {
+                     return (
+                         <h3 key={index}
+                         className="text-yellow-400 text-lg font-semibold mt-4">
+                             🚀 Recommendations
+                         </h3>
+                           );
+                        }
+                        return (
+                        <p key={index}
+                        className="text-slate-300 leading-7">
+                            {line}</p>
+                            );
+                        })}
                 </div>
               </div>
             </div>
@@ -487,6 +525,7 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
         </div>
 
     </div>
+    </Layout>
 )
 }
 export default AIInterviews
