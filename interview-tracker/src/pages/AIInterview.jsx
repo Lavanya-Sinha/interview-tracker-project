@@ -383,7 +383,7 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
                             💪 Strengths </h3>
                     );
                 }
-                if (line.includes("AREAS FOR IMPROVEMENT")) {
+                if (line.includes("AREAS OF IMPROVEMENT")) {
                     return (
                     <h3
                     key={index}
