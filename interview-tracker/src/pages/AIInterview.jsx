@@ -369,21 +369,21 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
                </h2>
                <div className="space-y-3">
                {summary.split("\n").map((line, index) => {
-                if (line.startsWith("SUMMARY:")) {
+                if (line.includes("SUMMARY")) {
                     return (
                          <h3 key={index}
                          className="text-blue-400 text-lg font-semibold mt-2">
                             📋 Summary</h3>
                     );
                 }
-                if (line.startsWith("STRENGTHS:")) {
+                if (line.includes("STRENGTHS")) {
                     return(
                           <h3 key={index}
                           className="text-green-400 text-lg font-semibold mt-4">
                             💪 Strengths </h3>
                     );
                 }
-                if (line.startsWith("AREAS FOR IMPROVEMENT:")) {
+                if (line.includes("AREAS FOR IMPROVEMENT")) {
                     return (
                     <h3
                     key={index}
@@ -391,7 +391,7 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
                          📈 Areas For Improvement</h3>
                          );
                         }
-                if (line.startsWith("RECOMMENDATIONS:")) {
+                if (line.includes("RECOMMENDATIONS")) {
                      return (
                          <h3 key={index}
                          className="text-yellow-400 text-lg font-semibold mt-4">
