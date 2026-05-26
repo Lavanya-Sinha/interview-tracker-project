@@ -41,7 +41,7 @@ const AIInterviews = ()=>{
         setDifficulty(session.difficulty)
         setConversation(JSON.parse(session.conversation))
         setSessionId(session.id)
-        setIsInterviewEnded(session.is_completed)
+        setIsInterviewEnded(Boolean(session.is_completed))
         setSummary(session.summary || "");
        })
        .catch((err)=>{
@@ -207,10 +207,6 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
     });
 
 };
- console.log("conversation.length =", conversation.length);
-  console.log("isInterviewEnded =", isInterviewEnded);
-  console.log("summary =", summary);
-  console.log("summaryLoading =", summaryLoading);
    return(
     <Layout>
     <div className="w-full max-w-4xl mx-auto space-y-6">
@@ -413,7 +409,7 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
             </div>
        )
        }
-           <div ref={bottomRef}>BOTTOM REF</div>
+           <div ref={bottomRef}></div>
             {
                 conversation.length > 0 &&   !isInterviewEnded &&(
 
