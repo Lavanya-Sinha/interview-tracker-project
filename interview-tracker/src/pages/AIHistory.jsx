@@ -119,7 +119,7 @@ const handleDeleteSession = (id)=>{
                     </p>
                     
                     {
-                      session.average_score && (
+                       typeof session.average_score === "number" && (
                         <div className="mt-3">
                       <span className="bg-blue-900/40 text-blue-300 px-3 py-1 rounded-full text-sm font-medium">
                         Score: {session.average_score}/10
