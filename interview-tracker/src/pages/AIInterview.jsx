@@ -207,7 +207,10 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
     });
 
 };
-
+ console.log("conversation.length =", conversation.length);
+  console.log("isInterviewEnded =", isInterviewEnded);
+  console.log("summary =", summary);
+  console.log("summaryLoading =", summaryLoading);
    return(
     <Layout>
     <div className="w-full max-w-4xl mx-auto space-y-6">
@@ -410,8 +413,7 @@ fetch("https://interview-tracker-project.onrender.com/api/ai/create-session",{
             </div>
        )
        }
-
-           <div ref={bottomRef}></div>
+           <div ref={bottomRef}>BOTTOM REF</div>
             {
                 conversation.length > 0 &&   !isInterviewEnded &&(
 
