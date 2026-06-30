@@ -3,7 +3,7 @@ const Groq = require("groq-sdk");
 const groq = new Groq({
     apiKey: process.env.GROQ_API_KEY
 });
-const model = "gpt-oss-120b"
+
 const generateInterviewQuestions = (
     role,
     difficulty
@@ -18,7 +18,7 @@ const generateInterviewQuestions = (
             }
         ],
 
-        model: model
+        model: process.env.GROQ_MODEL
 
     })
 
@@ -47,7 +47,7 @@ return groq.chat.completions.create({
             Do not change the labels.`
         }
     ],
-       model: model
+       model: process.env.GROQ_MODEL
 })
 .then((chatCompletion)=>{
     return chatCompletion
@@ -76,7 +76,7 @@ const generateSummary = (conversation)=>{
                 `
             }
         ],
-         model: model
+         model: process.env.GROQ_MODEL
     })
      .then((chatCompletion) => {
         return chatCompletion.choices[0].message.content;
